@@ -589,6 +589,149 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        /* --- 用户ID管理弹窗 --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .modal-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .modal-value {
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            color: #1890ff;
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #d9d9d9;
+            word-break: break-all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .modal-input:focus {
+            border-color: #1890ff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-primary {
+            background: #1890ff;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #40a9ff;
+        }
+
+        .modal-btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .modal-btn-danger {
+            background: #ff4d4f;
+            color: white;
+        }
+
+        .modal-btn-danger:hover {
+            background: #ff7875;
+        }
+
+        .copy-btn {
+            padding: 6px 12px;
+            background: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #40a9ff;
+        }
+
+        .modal-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
     </style>
 </head>
 <body>
@@ -683,11 +826,15 @@
                 <button class="btn-dash" onclick="syncAllFundNav()">🔄 同步实时净值</button>
                 <button class="btn-dash" onclick="saveToCloud()" title="手动保存到云端">☁️ 保存到云端</button>
                 <button class="btn-dash" onclick="loadFromCloudManual()" title="从云端重新加载">📥 从云端加载</button>
+                <button class="btn-dash" onclick="showUserIdManager()" title="管理用户ID">🔑 用户ID</button>
                 <button class="btn-dash" onclick="exportData()">⬇️ 备份配置</button>
                 <button class="btn-dash" onclick="document.getElementById('importFile').click()">⬆️ 恢复配置</button>
                 <input type="file" id="importFile" style="display:none" onchange="importData(this)">
             </div>
             <div id="syncStatus" style="margin-top: 10px; font-size: 12px; color: rgba(255,255,255,0.8);"></div>
+            <div id="userIdDisplay" style="margin-top: 10px; font-size: 11px; color: rgba(255,255,255,0.6);">
+                用户ID: <span id="currentUserId" style="font-family: monospace;">--</span>
+            </div>
         </div>
 
         <div class="summary-group">
@@ -825,6 +972,38 @@
         </div>
     </div>
 
+</div>
+
+<!-- 用户ID管理弹窗 -->
+<div id="userIdModal" class="modal-overlay" onclick="if(event.target === this) closeUserIdManager()">
+    <div class="modal-content">
+        <div class="modal-title">🔑 用户ID管理</div>
+        
+        <div class="modal-section">
+            <div class="modal-label">当前用户ID</div>
+            <div class="modal-value">
+                <span id="modalUserId">--</span>
+                <button class="copy-btn" onclick="copyUserId()">复制</button>
+            </div>
+            <div class="modal-hint">
+                💡 在其他设备上使用相同的用户ID，即可同步数据
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <div class="modal-label">设置新的用户ID</div>
+            <input type="text" id="newUserIdInput" class="modal-input" placeholder="粘贴用户ID...">
+            <div class="modal-hint">
+                ⚠️ 设置新ID后，将加载该ID对应的数据
+            </div>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-danger" onclick="resetUserId()">🔄 重置ID</button>
+            <button class="modal-btn modal-btn-primary" onclick="setNewUserId()">✅ 设置ID</button>
+            <button class="modal-btn modal-btn-secondary" onclick="closeUserIdManager()">取消</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -1044,6 +1223,9 @@
         // 显示加载提示
         showNotification('正在加载数据...', 'info');
         
+        // 显示当前用户ID
+        updateUserIdDisplay();
+        
         // 优先从云端加载
         const cloudData = await loadFromCloud();
         
@@ -1077,6 +1259,153 @@
         loadIndexData(); // 加载指数数据
         loadDailyPnL(); // 自动加载今日盈亏
     };
+
+    // --- 用户ID管理功能 ---
+    
+    /**
+     * 更新页面上显示的用户ID
+     */
+    function updateUserIdDisplay() {
+        const displayEl = document.getElementById('currentUserId');
+        if (displayEl) {
+            displayEl.textContent = userId;
+        }
+    }
+    
+    /**
+     * 显示用户ID管理弹窗
+     */
+    function showUserIdManager() {
+        const modal = document.getElementById('userIdModal');
+        const modalUserId = document.getElementById('modalUserId');
+        const newUserIdInput = document.getElementById('newUserIdInput');
+        
+        modalUserId.textContent = userId;
+        newUserIdInput.value = '';
+        modal.style.display = 'flex';
+    }
+    
+    /**
+     * 关闭用户ID管理弹窗
+     */
+    function closeUserIdManager() {
+        const modal = document.getElementById('userIdModal');
+        modal.style.display = 'none';
+    }
+    
+    /**
+     * 复制用户ID到剪贴板
+     */
+    function copyUserId() {
+        const textToCopy = userId;
+        
+        // 尝试使用现代API
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showNotification('用户ID已复制到剪贴板', 'success');
+            }).catch(err => {
+                // 降级方案
+                fallbackCopy(textToCopy);
+            });
+        } else {
+            // 降级方案
+            fallbackCopy(textToCopy);
+        }
+    }
+    
+    /**
+     * 降级复制方案（兼容旧浏览器）
+     */
+    function fallbackCopy(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            showNotification('用户ID已复制到剪贴板', 'success');
+        } catch (err) {
+            showNotification('复制失败，请手动复制', 'error');
+        }
+        
+        document.body.removeChild(textArea);
+    }
+    
+    /**
+     * 设置新的用户ID
+     */
+    async function setNewUserId() {
+        const newUserIdInput = document.getElementById('newUserIdInput');
+        const newUserId = newUserIdInput.value.trim();
+        
+        if (!newUserId) {
+            showNotification('请输入用户ID', 'warning');
+            return;
+        }
+        
+        if (newUserId === userId) {
+            showNotification('新ID与当前ID相同', 'warning');
+            return;
+        }
+        
+        if (!confirm(`确定要切换到新的用户ID吗？\n\n新ID: ${newUserId}\n\n切换后将加载该ID对应的数据。`)) {
+            return;
+        }
+        
+        // 保存新的用户ID
+        userId = newUserId;
+        localStorage.setItem('userId', userId);
+        
+        // 更新显示
+        updateUserIdDisplay();
+        
+        // 关闭弹窗
+        closeUserIdManager();
+        
+        // 显示提示
+        showNotification('用户ID已更新，正在加载数据...', 'info');
+        
+        // 重新加载数据
+        const cloudData = await loadFromCloud();
+        
+        if (cloudData) {
+            appData = cloudData;
+            renderApp();
+            calcAll();
+            showNotification('数据已从云端加载', 'success');
+        } else {
+            showNotification('云端没有该ID的数据，将使用默认数据', 'warning');
+            appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            renderApp();
+            calcAll();
+        }
+    }
+    
+    /**
+     * 重置用户ID（生成新ID）
+     */
+    function resetUserId() {
+        if (!confirm('确定要重置用户ID吗？\n\n重置后将生成新的ID，当前数据将保留在云端，但需要使用旧ID才能访问。\n\n建议先备份配置！')) {
+            return;
+        }
+        
+        // 生成新ID
+        const newUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        userId = newUserId;
+        localStorage.setItem('userId', userId);
+        
+        // 更新显示
+        updateUserIdDisplay();
+        document.getElementById('modalUserId').textContent = userId;
+        
+        // 显示提示
+        showNotification('用户ID已重置: ' + userId, 'success');
+        
+        console.log('🆔 新用户ID:', userId);
+    }
 
     // --- 加载指数数据 ---
     function loadIndexData() {
