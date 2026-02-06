@@ -732,6 +732,368 @@
             line-height: 1.6;
         }
 
+        /* ========== 移动端优化 ========== */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            /* 顶部配置面板 */
+            .dashboard-config {
+                padding: 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .config-group {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+
+            .config-item {
+                width: 100%;
+            }
+
+            .dash-input {
+                width: 100%;
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .summary-group {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+
+            .summary-item {
+                text-align: left;
+            }
+
+            .summary-val {
+                font-size: 24px;
+            }
+
+            /* 按钮组 */
+            .btn-group {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .btn-dash {
+                font-size: 11px;
+                padding: 8px 10px;
+                flex: 1 1 calc(50% - 4px);
+                min-width: calc(50% - 4px);
+            }
+
+            /* 指数面板 */
+            .index-dashboard {
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+
+            .index-title {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .index-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .index-item {
+                padding: 10px;
+            }
+
+            .index-name {
+                font-size: 11px;
+            }
+
+            .index-value {
+                font-size: 18px;
+            }
+
+            .index-change {
+                font-size: 12px;
+            }
+
+            /* 今日盈亏面板 */
+            .pnl-header {
+                padding: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .pnl-title {
+                font-size: 16px;
+            }
+
+            .pnl-summary {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .pnl-summary-item,
+            .pnl-summary-item-large {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+
+            .pnl-label,
+            .pnl-label-large {
+                text-align: left;
+                margin-bottom: 0;
+            }
+
+            .pnl-value,
+            .pnl-value-large {
+                font-size: 20px;
+            }
+
+            .pnl-value-large.small {
+                font-size: 18px;
+            }
+
+            .pnl-divider {
+                display: none;
+            }
+
+            .pnl-content {
+                padding: 10px;
+            }
+
+            .pnl-sector {
+                margin-bottom: 10px;
+            }
+
+            .pnl-sector-header {
+                padding: 10px 15px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .pnl-sector-name {
+                font-size: 14px;
+            }
+
+            .pnl-sector-total {
+                font-size: 16px;
+            }
+
+            /* 表格优化 */
+            .pnl-table {
+                font-size: 11px;
+            }
+
+            .pnl-table th,
+            .pnl-table td {
+                padding: 8px 5px;
+            }
+
+            .fund-code {
+                font-size: 11px;
+            }
+
+            .fund-name {
+                font-size: 12px;
+            }
+
+            .nav-value,
+            .growth-rate,
+            .share-amount,
+            .daily-profit {
+                font-size: 12px;
+            }
+
+            /* 板块卡片 */
+            .sector-card {
+                margin-bottom: 15px;
+            }
+
+            .card-header {
+                padding: 10px 15px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .sector-name-input {
+                font-size: 16px;
+                width: 100%;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .table-wrap {
+                padding: 10px 15px 15px 15px;
+                overflow-x: auto;
+            }
+
+            .fund-table {
+                min-width: 600px;
+            }
+
+            .fund-table th,
+            .fund-table td {
+                padding: 10px 5px;
+                font-size: 12px;
+            }
+
+            .tb-input {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+
+            .result-pill {
+                padding: 6px 10px;
+                font-size: 14px;
+                min-width: 70px;
+            }
+
+            /* 底部策略卡片 */
+            .strategy-footer {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                gap: 15px;
+            }
+
+            .info-card {
+                padding: 20px;
+            }
+
+            .info-title {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            .strategy-list li,
+            .rules-list li {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            /* 用户ID管理弹窗 */
+            .modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+
+            .modal-title {
+                font-size: 18px;
+            }
+
+            .modal-section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .modal-value {
+                font-size: 12px;
+                padding: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .copy-btn {
+                width: 100%;
+            }
+
+            .modal-input {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .modal-btn {
+                width: 100%;
+                padding: 12px;
+            }
+
+            /* 隐藏不必要的元素 */
+            .analysis-dashboard,
+            .compound-dashboard {
+                display: none !important;
+            }
+
+            /* 用户ID显示 */
+            #userIdDisplay {
+                font-size: 10px;
+                word-break: break-all;
+            }
+
+            #currentUserId {
+                display: block;
+                margin-top: 5px;
+            }
+        }
+
+        /* 小屏手机优化 (< 480px) */
+        @media (max-width: 480px) {
+            .dashboard-config {
+                padding: 10px;
+            }
+
+            .summary-val {
+                font-size: 20px;
+            }
+
+            .btn-dash {
+                font-size: 10px;
+                padding: 6px 8px;
+            }
+
+            .index-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .index-value {
+                font-size: 16px;
+            }
+
+            .pnl-value-large {
+                font-size: 18px;
+            }
+
+            .pnl-value-large.small {
+                font-size: 16px;
+            }
+
+            .pnl-table {
+                font-size: 10px;
+            }
+
+            .fund-table {
+                min-width: 500px;
+            }
+        }
+
     </style>
 </head>
 <body>
