@@ -1165,7 +1165,7 @@
         };
 
         // 使用K线接口，获取最近2天数据
-        script.src = `http://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${code}&fields1=f1,f2,f3&fields2=f51,f52,f53&klt=101&fqt=0&end=20500101&lmt=2&cb=${callbackName}`;
+        script.src = `https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${code}&fields1=f1,f2,f3&fields2=f51,f52,f53&klt=101&fqt=0&end=20500101&lmt=2&cb=${callbackName}`;
         document.head.appendChild(script);
     }
 
@@ -1393,7 +1393,7 @@
                 reject(new Error('Network error'));
             };
 
-            script.src = `http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=${code}&page=1&per=2&_=${Date.now()}`;
+            script.src = `https://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=${code}&page=1&per=2&_=${Date.now()}`;
             document.head.appendChild(script);
         });
     }
@@ -2323,7 +2323,7 @@
                 reject(new Error('Network error'));
             };
 
-            script.src = `http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=${code}&page=1&per=1&_=${Date.now()}`;
+            script.src = `https://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=${code}&page=1&per=1&_=${Date.now()}`;
             document.head.appendChild(script);
         });
     }
