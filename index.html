@@ -265,8 +265,9 @@
         }
 
         .pnl-content {
-            padding: 25px;
-            background: var(--bg-body);
+            padding: 0;
+            margin-top: 15px;
+            background: transparent;
         }
 
         .pnl-sector {
@@ -898,7 +899,8 @@
             }
 
             .pnl-content {
-                padding: 15px;
+                padding: 0;
+                margin-top: 15px;
             }
 
             .pnl-sector {
@@ -1242,8 +1244,8 @@
                 <div class="loading-spinner"></div>
                 <div>正在获取今日净值数据...</div>
             </div>
-            <div class="pnl-content" id="pnlContent"></div>
         </div>
+        <div class="pnl-content" id="pnlContent"></div>
     </div>
 
     <div class="dashboard-config">
@@ -1363,27 +1365,27 @@
         <div class="pnl-card">
             <div class="pnl-header">
                 <div class="pnl-title">📈 实时预估 (Real-time Estimate)</div>
-                <div class="pnl-summary">
-                    <div class="pnl-summary-item">
-                        <span class="pnl-label">预估总收益</span>
-                        <span class="pnl-value" id="totalEstimatePnl">0</span>
-                    </div>
-                    <div class="pnl-summary-item">
-                        <span class="pnl-label">盈利基金</span>
-                        <span class="pnl-count" id="estimateProfitCount">0</span>
-                    </div>
-                    <div class="pnl-summary-item">
-                        <span class="pnl-label">亏损基金</span>
-                        <span class="pnl-count loss" id="estimateLossCount">0</span>
-                    </div>
+            </div>
+            <div class="pnl-summary">
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">预估总收益</span>
+                    <span class="pnl-value" id="totalEstimatePnl">0</span>
+                </div>
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">盈利基金</span>
+                    <span class="pnl-count" id="estimateProfitCount">0</span>
+                </div>
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">亏损基金</span>
+                    <span class="pnl-count loss" id="estimateLossCount">0</span>
                 </div>
             </div>
             <div class="pnl-loading" id="estimateLoading">
                 <div class="loading-spinner"></div>
                 <div>正在获取实时估算数据...</div>
             </div>
-            <div class="pnl-content" id="estimateContent"></div>
         </div>
+        <div class="pnl-content" id="estimateContent"></div>
     </div>
 
     <div id="sectors-container"></div>
