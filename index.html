@@ -521,7 +521,27 @@
             margin-bottom: 15px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 8px;
+        }
+
+        .index-refresh-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .index-refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
         .index-grid {
@@ -807,28 +827,35 @@
                 font-weight: 700;
             }
 
+            .index-refresh-btn {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+
             .index-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
             .index-item {
-                padding: 15px;
-                border-radius: 10px;
+                padding: 12px;
+                border-radius: 8px;
             }
 
             .index-name {
-                font-size: 13px;
-                margin-bottom: 8px;
-            }
-
-            .index-value {
-                font-size: 24px;
+                font-size: 12px;
                 margin-bottom: 6px;
             }
 
+            .index-value {
+                font-size: 20px;
+                margin-bottom: 4px;
+                font-weight: 700;
+            }
+
             .index-change {
-                font-size: 14px;
+                font-size: 13px;
+                font-weight: 600;
             }
 
             /* 今日盈亏面板 */
@@ -1101,12 +1128,30 @@
                 padding: 6px 8px;
             }
 
+            .index-refresh-btn {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+
             .index-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .index-item {
+                padding: 10px;
+            }
+
+            .index-name {
+                font-size: 11px;
             }
 
             .index-value {
-                font-size: 16px;
+                font-size: 18px;
+            }
+
+            .index-change {
+                font-size: 12px;
             }
 
             .pnl-value-large {
@@ -1134,7 +1179,10 @@
 
     <!-- 指数面板 -->
     <div class="index-dashboard">
-        <div class="index-title">📊 全球市场指数</div>
+        <div class="index-title">
+            <span>📊 全球市场指数</span>
+            <button class="index-refresh-btn" onclick="location.reload()">🔄 刷新</button>
+        </div>
         <div class="index-grid">
             <div class="index-item" id="index-ndx">
                 <div class="index-name">纳斯达克100</div>
