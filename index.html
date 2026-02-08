@@ -1318,7 +1318,7 @@
     <div class="daily-pnl-dashboard" id="dailyPnlPanel">
         <div class="pnl-card">
             <div class="pnl-header">
-                <div class="pnl-title">💰 今日盈亏明细 (Daily P&L)</div>
+                <div class="pnl-title">💰 持仓看板</div>
             </div>
             <div class="pnl-summary">
                 <div class="pnl-summary-item">
@@ -1326,25 +1326,19 @@
                     <span class="pnl-value-large" id="totalAssetInPnl">0</span>
                 </div>
                 <div class="pnl-summary-item">
-                    <span class="pnl-label">今日总收益</span>
-                    <span class="pnl-value" id="totalDailyPnl">0</span>
-                </div>
-                <div class="pnl-summary-item">
-                    <span class="pnl-label">累计浮盈</span>
+                    <span class="pnl-label">累计收益</span>
                     <span class="pnl-value-large" id="totalProfitInPnl">0</span>
                     <span class="pnl-rate" id="totalProfitRateInPnl">0%</span>
                 </div>
                 <div class="pnl-summary-item">
+                    <span class="pnl-label">今日收益</span>
+                    <span class="pnl-value" id="totalDailyPnl">0</span>
+                    <span class="pnl-rate" id="dailyProfitRate">0%</span>
+                </div>
+                <div class="pnl-summary-item">
                     <span class="pnl-label">持仓基金数</span>
                     <span class="pnl-count-total" id="totalFundCount">0</span>
-                </div>
-                <div class="pnl-summary-item">
-                    <span class="pnl-label">盈利基金</span>
-                    <span class="pnl-count profit" id="profitCount">0</span>
-                </div>
-                <div class="pnl-summary-item">
-                    <span class="pnl-label">亏损基金</span>
-                    <span class="pnl-count loss" id="lossCount">0</span>
+                    <span class="pnl-rate" id="profitLossRatio">0/0</span>
                 </div>
             </div>
             <div class="pnl-loading" id="pnlLoading">
@@ -2317,11 +2311,17 @@
         const totalPnlEl = document.getElementById('totalDailyPnl');
         totalPnlEl.textContent = (totalProfit >= 0 ? '+' : '') + totalProfit.toFixed(2);
         totalPnlEl.style.color = totalProfit >= 0 ? '#ff4d4f' : '#52c41a';
-        document.getElementById('profitCount').textContent = profitCount;
-        document.getElementById('lossCount').textContent = lossCount;
         
-        // 更新持仓基金数
+        // 计算今日收益率
+        const dailyProfitRate = totalAsset > 0 ? (totalProfit / totalAsset * 100) : 0;
+        const dailyProfitRateEl = document.getElementById('dailyProfitRate');
+        dailyProfitRateEl.textContent = (dailyProfitRate >= 0 ? '+' : '') + dailyProfitRate.toFixed(2) + '%';
+        dailyProfitRateEl.style.color = dailyProfitRate >= 0 ? '#ff4d4f' : '#52c41a';
+        
+        // 更新持仓基金数和盈亏比例（带颜色）
         document.getElementById('totalFundCount').textContent = results.length;
+        const profitLossRatioEl = document.getElementById('profitLossRatio');
+        profitLossRatioEl.innerHTML = `<span style="color: #ff4d4f">${profitCount}</span>/<span style="color: #52c41a">${lossCount}</span>`;
         
         // 更新持仓市值
         const totalAssetEl = document.getElementById('totalAssetInPnl');
