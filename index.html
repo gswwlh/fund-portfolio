@@ -312,10 +312,39 @@
             gap: 10px;
         }
 
+        .pnl-sector-stats {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .pnl-sector-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
         .pnl-sector-total {
             font-size: 18px;
             font-weight: 800;
             font-family: 'Consolas', monospace;
+            line-height: 1;
+        }
+
+        .pnl-sector-asset {
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Consolas', monospace;
+            color: #333;
+            line-height: 1;
+        }
+
+        .pnl-sector-rate {
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Consolas', monospace;
+            line-height: 1;
         }
 
         .pnl-table {
@@ -1003,9 +1032,21 @@
                 flex: 1;
             }
 
+            .pnl-sector-stats {
+                gap: 15px;
+            }
+
             .pnl-sector-total {
-                font-size: 20px;
+                font-size: 18px;
                 font-weight: 800;
+            }
+
+            .pnl-sector-asset {
+                font-size: 15px;
+            }
+
+            .pnl-sector-rate {
+                font-size: 12px;
             }
 
             /* 手机端：隐藏表格，显示卡片 */
@@ -2344,8 +2385,20 @@
             const sectorData = sectorMap[sector.id];
             if (!sectorData || sectorData.funds.length === 0) return;
             
-            // 计算板块总收益
+            // 计算板块总收益、持仓总额和收益率
             const sectorProfit = sectorData.funds.reduce((sum, f) => sum + f.dailyProfit, 0);
+            let sectorTotalAsset = 0;
+            let sectorTotalCost = 0;
+            
+            sectorData.funds.forEach(fund => {
+                const marketValue = fund.share * fund.todayNav;
+                const costValue = fund.share * fund.costNav;
+                sectorTotalAsset += marketValue;
+                sectorTotalCost += costValue;
+            });
+            
+            const sectorHoldingProfit = sectorTotalAsset - sectorTotalCost;
+            const sectorHoldingProfitRate = sectorTotalCost > 0 ? (sectorHoldingProfit / sectorTotalCost * 100) : 0;
             
             html += `
                 <div class="pnl-sector" style="border-top-color: ${sectorData.color}">
@@ -2354,8 +2407,18 @@
                             <span style="color:${sectorData.color}; font-size:20px;">●</span>
                             ${sectorData.name}
                         </div>
-                        <div class="pnl-sector-total" style="color: ${sectorProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
-                            ${sectorProfit >= 0 ? '+' : ''}${sectorProfit.toFixed(2)}
+                        <div class="pnl-sector-stats">
+                            <div class="pnl-sector-stat">
+                                <div class="pnl-sector-total" style="color: ${sectorProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                    ${sectorProfit >= 0 ? '+' : ''}${sectorProfit.toFixed(2)}
+                                </div>
+                            </div>
+                            <div class="pnl-sector-stat">
+                                <div class="pnl-sector-asset">${Math.round(sectorTotalAsset).toLocaleString()}</div>
+                                <div class="pnl-sector-rate" style="color: ${sectorHoldingProfitRate >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                    ${sectorHoldingProfitRate >= 0 ? '+' : ''}${sectorHoldingProfitRate.toFixed(2)}%
+                                </div>
+                            </div>
                         </div>
                     </div>
             `;
@@ -2639,8 +2702,20 @@
             const sectorData = sectorMap[sector.id];
             if (!sectorData || sectorData.funds.length === 0) return;
             
-            // 计算板块总收益
+            // 计算板块总收益、持仓总额和收益率
             const sectorProfit = sectorData.funds.reduce((sum, f) => sum + f.dailyProfit, 0);
+            let sectorTotalAsset = 0;
+            let sectorTotalCost = 0;
+            
+            sectorData.funds.forEach(fund => {
+                const marketValue = fund.share * fund.todayNav;
+                const costValue = fund.share * fund.costNav;
+                sectorTotalAsset += marketValue;
+                sectorTotalCost += costValue;
+            });
+            
+            const sectorHoldingProfit = sectorTotalAsset - sectorTotalCost;
+            const sectorHoldingProfitRate = sectorTotalCost > 0 ? (sectorHoldingProfit / sectorTotalCost * 100) : 0;
             
             html += `
                 <div class="pnl-sector" style="border-top-color: ${sectorData.color}">
@@ -2649,8 +2724,18 @@
                             <span style="color:${sectorData.color}; font-size:20px;">●</span>
                             ${sectorData.name}
                         </div>
-                        <div class="pnl-sector-total" style="color: ${sectorProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
-                            ${sectorProfit >= 0 ? '+' : ''}${sectorProfit.toFixed(2)}
+                        <div class="pnl-sector-stats">
+                            <div class="pnl-sector-stat">
+                                <div class="pnl-sector-total" style="color: ${sectorProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                    ${sectorProfit >= 0 ? '+' : ''}${sectorProfit.toFixed(2)}
+                                </div>
+                            </div>
+                            <div class="pnl-sector-stat">
+                                <div class="pnl-sector-asset">${Math.round(sectorTotalAsset).toLocaleString()}</div>
+                                <div class="pnl-sector-rate" style="color: ${sectorHoldingProfitRate >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                    ${sectorHoldingProfitRate >= 0 ? '+' : ''}${sectorHoldingProfitRate.toFixed(2)}%
+                                </div>
+                            </div>
                         </div>
                     </div>
             `;
