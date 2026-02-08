@@ -464,6 +464,14 @@
             border-bottom: none;
         }
 
+        /* 移动端黑色主题覆盖 */
+        @media (max-width: 768px) {
+            .pnl-mobile-item {
+                background: rgba(255, 255, 255, 0.03);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+        }
+
         .pnl-mobile-header {
             margin-bottom: 12px;
         }
@@ -510,6 +518,25 @@
             font-family: 'Consolas', monospace;
             color: #333;
             line-height: 1.2;
+        }
+
+        /* 移动端黑色主题覆盖 - 卡片文字 */
+        @media (max-width: 768px) {
+            .pnl-mobile-fund-name {
+                color: #e8eaf0;
+            }
+            
+            .pnl-mobile-fund-code {
+                color: rgba(255, 255, 255, 0.5);
+            }
+            
+            .pnl-mobile-label {
+                color: rgba(255, 255, 255, 0.6);
+            }
+            
+            .pnl-mobile-value {
+                color: #ffffff;
+            }
         }
 
         .pnl-mobile-sub {
@@ -712,6 +739,33 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        /* 移动端黑色主题 - 涨跌颜色增强 */
+        @media (max-width: 768px) {
+            .index-change.positive {
+                color: #ff5757;
+                text-shadow: 0 0 8px rgba(255, 87, 87, 0.3);
+            }
+
+            .index-change.negative {
+                color: #51cf66;
+                text-shadow: 0 0 8px rgba(81, 207, 102, 0.3);
+            }
+            
+            .growth-positive,
+            .profit-positive {
+                color: #ff5757 !important;
+            }
+            
+            .growth-negative,
+            .profit-negative {
+                color: #51cf66 !important;
+            }
+            
+            .pnl-mobile-sub {
+                font-weight: 600;
+            }
+        }
+
         /* --- 用户ID管理弹窗 --- */
         .modal-overlay {
             display: none;
@@ -859,7 +913,7 @@
         @media (max-width: 768px) {
             body {
                 padding: 10px;
-                background: #f5f7fa;
+                background: #0a0e1a;
             }
 
             .container {
@@ -922,17 +976,23 @@
                 padding: 20px 15px;
                 margin-bottom: 15px;
                 border-radius: 12px;
+                background: linear-gradient(135deg, #1a1f35 0%, #2d1b3d 100%);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             }
 
             .index-title {
                 font-size: 16px;
                 margin-bottom: 15px;
                 font-weight: 700;
+                color: #e8eaf0;
             }
 
             .index-refresh-btn {
                 font-size: 12px;
                 padding: 5px 10px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: #e8eaf0;
             }
 
             .index-grid {
@@ -943,17 +1003,28 @@
             .index-item {
                 padding: 12px;
                 border-radius: 8px;
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                transition: all 0.3s ease;
+            }
+            
+            .index-item:active {
+                transform: scale(0.98);
+                background: rgba(255, 255, 255, 0.12);
             }
 
             .index-name {
                 font-size: 12px;
                 margin-bottom: 6px;
+                color: rgba(255, 255, 255, 0.7);
             }
 
             .index-value {
                 font-size: 20px;
                 margin-bottom: 4px;
                 font-weight: 700;
+                color: #ffffff;
             }
 
             .index-change {
@@ -969,6 +1040,8 @@
             .pnl-card {
                 border-radius: 12px;
                 padding: 15px;
+                background: linear-gradient(135deg, #1e2a3a 0%, #2a1e3a 100%);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             }
 
             .pnl-header {
@@ -978,6 +1051,7 @@
             .pnl-title {
                 font-size: 16px;
                 font-weight: 700;
+                color: #e8eaf0;
             }
 
             .pnl-summary {
@@ -987,21 +1061,34 @@
 
             .pnl-summary-item {
                 padding: 12px;
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+            
+            .pnl-summary-item:active {
+                transform: scale(0.98);
+                background: rgba(255, 255, 255, 0.12);
             }
 
             .pnl-label {
                 font-size: 11px;
                 margin-bottom: 6px;
+                color: rgba(255, 255, 255, 0.6);
             }
 
             .pnl-value,
             .pnl-count,
             .pnl-count-total {
                 font-size: 24px;
+                color: #ffffff;
             }
 
             .pnl-value-large {
                 font-size: 22px;
+                color: #ffffff;
             }
 
             .pnl-rate {
@@ -1017,6 +1104,9 @@
             .pnl-sector {
                 margin-bottom: 12px;
                 border-radius: 10px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                overflow: hidden;
             }
 
             .pnl-sector-header {
@@ -1025,11 +1115,14 @@
                 align-items: center;
                 justify-content: space-between;
                 gap: 10px;
+                background: rgba(255, 255, 255, 0.03);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             }
 
             .pnl-sector-name {
                 font-size: 15px;
                 flex: 1;
+                color: #e8eaf0;
             }
 
             .pnl-sector-stats {
@@ -1039,10 +1132,12 @@
             .pnl-sector-total {
                 font-size: 18px;
                 font-weight: 800;
+                color: #ffffff;
             }
 
             .pnl-sector-asset {
                 font-size: 15px;
+                color: #b8bcc8;
             }
 
             .pnl-sector-rate {
@@ -1162,18 +1257,32 @@
             }
 
             /* 用户ID管理弹窗 */
+            .modal-overlay {
+                background: rgba(0, 0, 0, 0.85);
+            }
+            
             .modal-content {
                 padding: 20px;
                 width: 95%;
+                background: linear-gradient(135deg, #1e2a3a 0%, #2a1e3a 100%);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
             }
 
             .modal-title {
                 font-size: 18px;
+                color: #e8eaf0;
             }
 
             .modal-section {
                 padding: 15px;
                 margin-bottom: 20px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .modal-label {
+                color: rgba(255, 255, 255, 0.7);
             }
 
             .modal-value {
@@ -1182,15 +1291,32 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                color: #64b5f6;
             }
 
             .copy-btn {
                 width: 100%;
+                background: rgba(100, 181, 246, 0.2);
+                border: 1px solid rgba(100, 181, 246, 0.4);
+                color: #64b5f6;
             }
 
             .modal-input {
                 font-size: 14px;
                 padding: 10px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                color: #ffffff;
+            }
+            
+            .modal-input::placeholder {
+                color: rgba(255, 255, 255, 0.4);
+            }
+            
+            .modal-hint {
+                color: rgba(255, 255, 255, 0.5);
             }
 
             .modal-buttons {
@@ -1201,6 +1327,22 @@
             .modal-btn {
                 width: 100%;
                 padding: 12px;
+            }
+            
+            .modal-btn-primary {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border: none;
+            }
+            
+            .modal-btn-secondary {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: #e8eaf0;
+            }
+            
+            .modal-btn-danger {
+                background: linear-gradient(135deg, #ff5757 0%, #ff4d4f 100%);
+                border: none;
             }
 
             /* 隐藏不必要的元素 - 手机端只显示数据查看 */
@@ -1231,6 +1373,10 @@
 
         /* 小屏手机优化 (< 480px) */
         @media (max-width: 480px) {
+            body {
+                background: #0a0e1a;
+            }
+            
             .dashboard-config {
                 padding: 10px;
             }
@@ -1256,6 +1402,7 @@
 
             .index-item {
                 padding: 10px;
+                background: rgba(255, 255, 255, 0.08);
             }
 
             .index-name {
@@ -1277,6 +1424,7 @@
 
             .pnl-summary-item {
                 padding: 10px;
+                background: rgba(255, 255, 255, 0.08);
             }
 
             .pnl-label {
