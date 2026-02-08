@@ -420,6 +420,76 @@
             color: #999;
         }
 
+        /* 手机端卡片式布局 */
+        .pnl-mobile-list {
+            display: none;
+        }
+
+        .pnl-mobile-item {
+            background: white;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .pnl-mobile-item:last-child {
+            border-bottom: none;
+        }
+
+        .pnl-mobile-header {
+            margin-bottom: 12px;
+        }
+
+        .pnl-mobile-fund-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .pnl-mobile-fund-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .pnl-mobile-fund-code {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .pnl-mobile-data {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .pnl-mobile-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .pnl-mobile-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 6px;
+        }
+
+        .pnl-mobile-value {
+            font-size: 18px;
+            font-weight: 800;
+            font-family: 'Consolas', monospace;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        .pnl-mobile-sub {
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Consolas', monospace;
+            margin-top: 2px;
+        }
+
         /* --- 4. 板块卡片 --- */
         .sector-card {
             background: var(--bg-card);
@@ -922,17 +992,29 @@
 
             .pnl-sector-header {
                 padding: 12px 15px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
             }
 
             .pnl-sector-name {
                 font-size: 15px;
+                flex: 1;
             }
 
             .pnl-sector-total {
-                font-size: 18px;
+                font-size: 20px;
+                font-weight: 800;
+            }
+
+            /* 手机端：隐藏表格，显示卡片 */
+            .pnl-table {
+                display: none;
+            }
+
+            .pnl-mobile-list {
+                display: block;
             }
 
             /* 表格优化 */
@@ -1172,6 +1254,14 @@
 
             .pnl-rate {
                 font-size: 11px;
+            }
+
+            .pnl-sector-name {
+                font-size: 14px;
+            }
+
+            .pnl-sector-total {
+                font-size: 18px;
             }
 
             .pnl-table {
@@ -2248,6 +2338,8 @@
         
         // 渲染各板块
         let html = '';
+        const isMobile = window.innerWidth <= 768;
+        
         appData.sectors.forEach(sector => {
             const sectorData = sectorMap[sector.id];
             if (!sectorData || sectorData.funds.length === 0) return;
@@ -2266,6 +2358,57 @@
                             ${sectorProfit >= 0 ? '+' : ''}${sectorProfit.toFixed(2)}
                         </div>
                     </div>
+            `;
+            
+            if (isMobile) {
+                // 手机端：使用新的卡片式布局
+                html += `<div class="pnl-mobile-list">`;
+                
+                sectorData.funds.forEach(fund => {
+                    const totalMarketValue = fund.share * fund.todayNav;
+                    const holdingProfit = totalMarketValue - (fund.share * fund.costNav);
+                    const holdingProfitRate = (holdingProfit / (fund.share * fund.costNav)) * 100;
+                    
+                    html += `
+                        <div class="pnl-mobile-item">
+                            <div class="pnl-mobile-header">
+                                <div class="pnl-mobile-fund-info">
+                                    <div class="pnl-mobile-fund-name">${fund.name}</div>
+                                    <div class="pnl-mobile-fund-code">${fund.code}</div>
+                                </div>
+                            </div>
+                            <div class="pnl-mobile-data">
+                                <div class="pnl-mobile-col">
+                                    <div class="pnl-mobile-label">日收益</div>
+                                    <div class="pnl-mobile-value" style="color: ${fund.dailyProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${fund.dailyProfit >= 0 ? '+' : ''}${fund.dailyProfit.toFixed(2)}
+                                    </div>
+                                    <div class="pnl-mobile-sub" style="color: ${fund.growthRate >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${fund.growthRate >= 0 ? '+' : ''}${fund.growthRate.toFixed(2)}%
+                                    </div>
+                                </div>
+                                <div class="pnl-mobile-col">
+                                    <div class="pnl-mobile-label">持仓收益</div>
+                                    <div class="pnl-mobile-value" style="color: ${holdingProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${holdingProfit >= 0 ? '+' : ''}${holdingProfit.toFixed(2)}
+                                    </div>
+                                    <div class="pnl-mobile-sub" style="color: ${holdingProfitRate >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${holdingProfitRate >= 0 ? '+' : ''}${holdingProfitRate.toFixed(2)}%
+                                    </div>
+                                </div>
+                                <div class="pnl-mobile-col">
+                                    <div class="pnl-mobile-label">总市值</div>
+                                    <div class="pnl-mobile-value">${totalMarketValue.toFixed(2)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            } else {
+                // PC端：保持原有表格布局
+                html += `
                     <table class="pnl-table">
                         <thead>
                             <tr>
@@ -2278,29 +2421,31 @@
                             </tr>
                         </thead>
                         <tbody>
-            `;
-            
-            sectorData.funds.forEach(fund => {
-                const growthClass = fund.growthRate > 0 ? 'growth-positive' : (fund.growthRate < 0 ? 'growth-negative' : 'growth-zero');
-                const profitClass = fund.dailyProfit > 0 ? 'profit-positive' : (fund.dailyProfit < 0 ? 'profit-negative' : 'profit-zero');
+                `;
+                
+                sectorData.funds.forEach(fund => {
+                    const growthClass = fund.growthRate > 0 ? 'growth-positive' : (fund.growthRate < 0 ? 'growth-negative' : 'growth-zero');
+                    const profitClass = fund.dailyProfit > 0 ? 'profit-positive' : (fund.dailyProfit < 0 ? 'profit-negative' : 'profit-zero');
+                    
+                    html += `
+                        <tr>
+                            <td><span class="fund-code">${fund.code}</span></td>
+                            <td><span class="fund-name">${fund.name}</span></td>
+                            <td><span class="nav-value">${fund.todayNav.toFixed(4)}</span></td>
+                            <td><span class="growth-rate ${growthClass}">${fund.growthRate >= 0 ? '+' : ''}${fund.growthRate.toFixed(2)}%</span></td>
+                            <td><span class="share-amount">${fund.share.toLocaleString()}</span></td>
+                            <td><span class="daily-profit ${profitClass}">${fund.dailyProfit >= 0 ? '+' : ''}${fund.dailyProfit.toFixed(2)}</span></td>
+                        </tr>
+                    `;
+                });
                 
                 html += `
-                    <tr>
-                        <td><span class="fund-code">${fund.code}</span></td>
-                        <td><span class="fund-name">${fund.name}</span></td>
-                        <td><span class="nav-value">${fund.todayNav.toFixed(4)}</span></td>
-                        <td><span class="growth-rate ${growthClass}">${fund.growthRate >= 0 ? '+' : ''}${fund.growthRate.toFixed(2)}%</span></td>
-                        <td><span class="share-amount">${fund.share.toLocaleString()}</span></td>
-                        <td><span class="daily-profit ${profitClass}">${fund.dailyProfit >= 0 ? '+' : ''}${fund.dailyProfit.toFixed(2)}</span></td>
-                    </tr>
-                `;
-            });
-            
-            html += `
                         </tbody>
                     </table>
-                </div>
-            `;
+                `;
+            }
+            
+            html += `</div>`;
         });
         
         contentEl.innerHTML = html;
@@ -2488,6 +2633,8 @@
         
         // 渲染各板块
         let html = '';
+        const isMobile = window.innerWidth <= 768;
+        
         appData.sectors.forEach(sector => {
             const sectorData = sectorMap[sector.id];
             if (!sectorData || sectorData.funds.length === 0) return;
@@ -2506,6 +2653,57 @@
                             ${sectorProfit >= 0 ? '+' : ''}${sectorProfit.toFixed(2)}
                         </div>
                     </div>
+            `;
+            
+            if (isMobile) {
+                // 手机端：使用新的卡片式布局
+                html += `<div class="pnl-mobile-list">`;
+                
+                sectorData.funds.forEach(fund => {
+                    const totalMarketValue = fund.share * fund.todayNav;
+                    const holdingProfit = totalMarketValue - (fund.share * fund.costNav);
+                    const holdingProfitRate = (holdingProfit / (fund.share * fund.costNav)) * 100;
+                    
+                    html += `
+                        <div class="pnl-mobile-item">
+                            <div class="pnl-mobile-header">
+                                <div class="pnl-mobile-fund-info">
+                                    <div class="pnl-mobile-fund-name">${fund.name}</div>
+                                    <div class="pnl-mobile-fund-code">${fund.code}</div>
+                                </div>
+                            </div>
+                            <div class="pnl-mobile-data">
+                                <div class="pnl-mobile-col">
+                                    <div class="pnl-mobile-label">日收益</div>
+                                    <div class="pnl-mobile-value" style="color: ${fund.dailyProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${fund.dailyProfit >= 0 ? '+' : ''}${fund.dailyProfit.toFixed(2)}
+                                    </div>
+                                    <div class="pnl-mobile-sub" style="color: ${fund.growthRate >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${fund.growthRate >= 0 ? '+' : ''}${fund.growthRate.toFixed(2)}%
+                                    </div>
+                                </div>
+                                <div class="pnl-mobile-col">
+                                    <div class="pnl-mobile-label">持仓收益</div>
+                                    <div class="pnl-mobile-value" style="color: ${holdingProfit >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${holdingProfit >= 0 ? '+' : ''}${holdingProfit.toFixed(2)}
+                                    </div>
+                                    <div class="pnl-mobile-sub" style="color: ${holdingProfitRate >= 0 ? '#ff4d4f' : '#52c41a'}">
+                                        ${holdingProfitRate >= 0 ? '+' : ''}${holdingProfitRate.toFixed(2)}%
+                                    </div>
+                                </div>
+                                <div class="pnl-mobile-col">
+                                    <div class="pnl-mobile-label">总市值</div>
+                                    <div class="pnl-mobile-value">${totalMarketValue.toFixed(2)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            } else {
+                // PC端：保持原有表格布局
+                html += `
                     <table class="pnl-table">
                         <thead>
                             <tr>
@@ -2518,29 +2716,31 @@
                             </tr>
                         </thead>
                         <tbody>
-            `;
-            
-            sectorData.funds.forEach(fund => {
-                const growthClass = fund.growthRate > 0 ? 'growth-positive' : (fund.growthRate < 0 ? 'growth-negative' : 'growth-zero');
-                const profitClass = fund.dailyProfit > 0 ? 'profit-positive' : (fund.dailyProfit < 0 ? 'profit-negative' : 'profit-zero');
+                `;
+                
+                sectorData.funds.forEach(fund => {
+                    const growthClass = fund.growthRate > 0 ? 'growth-positive' : (fund.growthRate < 0 ? 'growth-negative' : 'growth-zero');
+                    const profitClass = fund.dailyProfit > 0 ? 'profit-positive' : (fund.dailyProfit < 0 ? 'profit-negative' : 'profit-zero');
+                    
+                    html += `
+                        <tr>
+                            <td><span class="fund-code">${fund.code}</span></td>
+                            <td><span class="fund-name">${fund.name}</span></td>
+                            <td><span class="nav-value">${fund.todayNav.toFixed(4)}</span></td>
+                            <td><span class="growth-rate ${growthClass}">${fund.growthRate >= 0 ? '+' : ''}${fund.growthRate.toFixed(2)}%</span></td>
+                            <td><span class="share-amount">${fund.share.toLocaleString()}</span></td>
+                            <td><span class="daily-profit ${profitClass}">${fund.dailyProfit >= 0 ? '+' : ''}${fund.dailyProfit.toFixed(2)}</span></td>
+                        </tr>
+                    `;
+                });
                 
                 html += `
-                    <tr>
-                        <td><span class="fund-code">${fund.code}</span></td>
-                        <td><span class="fund-name">${fund.name}</span></td>
-                        <td><span class="nav-value">${fund.todayNav.toFixed(4)}</span></td>
-                        <td><span class="growth-rate ${growthClass}">${fund.growthRate >= 0 ? '+' : ''}${fund.growthRate.toFixed(2)}%</span></td>
-                        <td><span class="share-amount">${fund.share.toLocaleString()}</span></td>
-                        <td><span class="daily-profit ${profitClass}">${fund.dailyProfit >= 0 ? '+' : ''}${fund.dailyProfit.toFixed(2)}</span></td>
-                    </tr>
-                `;
-            });
-            
-            html += `
                         </tbody>
                     </table>
-                </div>
-            `;
+                `;
+            }
+            
+            html += `</div>`;
         });
         
         contentEl.innerHTML = html;
