@@ -736,10 +736,12 @@
         @media (max-width: 768px) {
             body {
                 padding: 10px;
+                background: #f5f7fa;
             }
 
             .container {
                 max-width: 100%;
+                padding: 0;
             }
 
             /* 顶部配置面板 */
@@ -794,51 +796,65 @@
 
             /* 指数面板 */
             .index-dashboard {
-                padding: 15px;
-                margin-bottom: 10px;
+                padding: 20px 15px;
+                margin-bottom: 15px;
+                border-radius: 12px;
             }
 
             .index-title {
-                font-size: 14px;
-                margin-bottom: 10px;
+                font-size: 16px;
+                margin-bottom: 15px;
+                font-weight: 700;
             }
 
             .index-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+                grid-template-columns: 1fr;
+                gap: 12px;
             }
 
             .index-item {
-                padding: 10px;
+                padding: 15px;
+                border-radius: 10px;
             }
 
             .index-name {
-                font-size: 11px;
+                font-size: 13px;
+                margin-bottom: 8px;
             }
 
             .index-value {
-                font-size: 18px;
+                font-size: 24px;
+                margin-bottom: 6px;
             }
 
             .index-change {
-                font-size: 12px;
+                font-size: 14px;
             }
 
             /* 今日盈亏面板 */
+            .daily-pnl-dashboard {
+                margin-bottom: 15px;
+            }
+
+            .pnl-card {
+                border-radius: 12px;
+            }
+
             .pnl-header {
-                padding: 15px;
+                padding: 20px 15px;
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
 
             .pnl-title {
-                font-size: 16px;
+                font-size: 18px;
+                font-weight: 700;
             }
 
             .pnl-summary {
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
                 width: 100%;
             }
 
@@ -848,21 +864,27 @@
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
+                padding: 10px 0;
             }
 
             .pnl-label,
             .pnl-label-large {
                 text-align: left;
                 margin-bottom: 0;
+                font-size: 13px;
             }
 
             .pnl-value,
             .pnl-value-large {
-                font-size: 20px;
+                font-size: 24px;
             }
 
             .pnl-value-large.small {
-                font-size: 18px;
+                font-size: 20px;
+            }
+
+            .pnl-rate {
+                font-size: 13px;
             }
 
             .pnl-divider {
@@ -870,51 +892,53 @@
             }
 
             .pnl-content {
-                padding: 10px;
+                padding: 15px;
             }
 
             .pnl-sector {
-                margin-bottom: 10px;
+                margin-bottom: 12px;
+                border-radius: 10px;
             }
 
             .pnl-sector-header {
-                padding: 10px 15px;
+                padding: 12px 15px;
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 8px;
             }
 
             .pnl-sector-name {
-                font-size: 14px;
+                font-size: 15px;
             }
 
             .pnl-sector-total {
-                font-size: 16px;
+                font-size: 18px;
             }
 
             /* 表格优化 */
             .pnl-table {
-                font-size: 11px;
+                font-size: 12px;
             }
 
             .pnl-table th,
             .pnl-table td {
-                padding: 8px 5px;
+                padding: 10px 8px;
             }
 
             .fund-code {
-                font-size: 11px;
+                font-size: 12px;
             }
 
             .fund-name {
-                font-size: 12px;
+                font-size: 13px;
+                font-weight: 600;
             }
 
             .nav-value,
             .growth-rate,
             .share-amount,
             .daily-profit {
-                font-size: 12px;
+                font-size: 13px;
             }
 
             /* 板块卡片 */
@@ -1036,9 +1060,17 @@
                 padding: 12px;
             }
 
-            /* 隐藏不必要的元素 */
+            /* 隐藏不必要的元素 - 手机端只显示数据查看 */
+            .dashboard-config,
             .analysis-dashboard,
-            .compound-dashboard {
+            .compound-dashboard,
+            .sector-card,
+            .btn-add-sector,
+            .strategy-footer,
+            #overBudgetWarning,
+            #rebalancePanel,
+            #compoundPanel,
+            #estimatePanel {
                 display: none !important;
             }
 
