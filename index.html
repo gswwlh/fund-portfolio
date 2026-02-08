@@ -158,119 +158,103 @@
         }
 
         .pnl-card {
-            background: var(--bg-card);
+            background: #1867c0;
             border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(24, 103, 192, 0.2);
+            padding: 20px 30px;
         }
 
         .pnl-header {
-            background: #1867c0;
             color: white;
-            padding: 25px 30px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
         }
 
         .pnl-title {
-            font-size: 20px;
-            font-weight: 800;
+            font-size: 16px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            color: white;
         }
 
         .pnl-summary {
-            display: flex;
-            gap: 30px;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
         }
 
         .pnl-summary-item {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .pnl-label {
             font-size: 12px;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 5px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .pnl-value {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 800;
             font-family: 'Consolas', monospace;
+            color: white;
+            line-height: 1;
         }
 
         .pnl-count {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 800;
             color: #52c41a;
+            font-family: 'Consolas', monospace;
+            line-height: 1;
         }
 
         .pnl-count.loss {
             color: #ff4d4f;
         }
 
-        .pnl-divider {
-            width: 2px;
-            height: 60px;
-            background: rgba(255,255,255,0.2);
-            margin: 0 10px;
-        }
-
-        .pnl-summary-item-large {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            min-width: 140px;
-        }
-
-        .pnl-label-large {
-            font-size: 14px;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 8px;
-            font-weight: 600;
-            text-align: center;
-            letter-spacing: 2px;
-        }
-
         .pnl-value-large {
-            font-size: 32px;
-            font-weight: 900;
+            font-size: 28px;
+            font-weight: 800;
             font-family: 'Consolas', monospace;
             color: #fff;
             line-height: 1;
-            margin-bottom: 5px;
-        }
-
-        .pnl-value-large.small {
-            font-size: 26px;
         }
 
         .pnl-rate {
             font-size: 14px;
             font-weight: 700;
             font-family: 'Consolas', monospace;
+            color: rgba(255,255,255,0.9);
+            margin-top: 5px;
         }
 
         .pnl-loading {
             padding: 60px;
             text-align: center;
-            color: #999;
+            color: rgba(255,255,255,0.8);
             display: none;
         }
 
         .loading-spinner {
             width: 40px;
             height: 40px;
-            border: 4px solid #f0f0f0;
-            border-top-color: #1890ff;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 15px;
@@ -873,57 +857,44 @@
 
             .pnl-card {
                 border-radius: 12px;
+                padding: 15px;
             }
 
             .pnl-header {
-                padding: 20px 15px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+                margin-bottom: 15px;
             }
 
             .pnl-title {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 700;
             }
 
             .pnl-summary {
-                flex-direction: column;
-                gap: 12px;
-                width: 100%;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
-            .pnl-summary-item,
-            .pnl-summary-item-large {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                padding: 10px 0;
+            .pnl-summary-item {
+                padding: 12px;
             }
 
-            .pnl-label,
-            .pnl-label-large {
-                text-align: left;
-                margin-bottom: 0;
-                font-size: 13px;
+            .pnl-label {
+                font-size: 11px;
+                margin-bottom: 6px;
             }
 
             .pnl-value,
-            .pnl-value-large {
+            .pnl-count {
                 font-size: 24px;
             }
 
-            .pnl-value-large.small {
-                font-size: 20px;
+            .pnl-value-large {
+                font-size: 22px;
             }
 
             .pnl-rate {
-                font-size: 13px;
-            }
-
-            .pnl-divider {
-                display: none;
+                font-size: 12px;
+                margin-top: 4px;
             }
 
             .pnl-content {
@@ -1162,12 +1133,30 @@
                 font-size: 12px;
             }
 
+            .pnl-summary {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .pnl-summary-item {
+                padding: 10px;
+            }
+
+            .pnl-label {
+                font-size: 10px;
+            }
+
+            .pnl-value,
+            .pnl-count {
+                font-size: 20px;
+            }
+
             .pnl-value-large {
                 font-size: 18px;
             }
 
-            .pnl-value-large.small {
-                font-size: 16px;
+            .pnl-rate {
+                font-size: 11px;
             }
 
             .pnl-table {
@@ -1225,29 +1214,28 @@
         <div class="pnl-card">
             <div class="pnl-header">
                 <div class="pnl-title">💰 今日盈亏明细 (Daily P&L)</div>
-                <div class="pnl-summary">
-                    <div class="pnl-summary-item">
-                        <span class="pnl-label">今日总收益</span>
-                        <span class="pnl-value" id="totalDailyPnl">0</span>
-                    </div>
-                    <div class="pnl-summary-item">
-                        <span class="pnl-label">盈利基金</span>
-                        <span class="pnl-count" id="profitCount">0</span>
-                    </div>
-                    <div class="pnl-summary-item">
-                        <span class="pnl-label">亏损基金</span>
-                        <span class="pnl-count loss" id="lossCount">0</span>
-                    </div>
-                    <div class="pnl-divider"></div>
-                    <div class="pnl-summary-item-large">
-                        <span class="pnl-label-large">持仓市值</span>
-                        <span class="pnl-value-large" id="totalAssetInPnl">0</span>
-                    </div>
-                    <div class="pnl-summary-item-large">
-                        <span class="pnl-label-large">累计浮盈</span>
-                        <span class="pnl-value-large small" id="totalProfitInPnl">0</span>
-                        <span class="pnl-rate" id="totalProfitRateInPnl">0%</span>
-                    </div>
+            </div>
+            <div class="pnl-summary">
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">今日总收益</span>
+                    <span class="pnl-value" id="totalDailyPnl">0</span>
+                </div>
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">盈利基金</span>
+                    <span class="pnl-count" id="profitCount">0</span>
+                </div>
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">亏损基金</span>
+                    <span class="pnl-count loss" id="lossCount">0</span>
+                </div>
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">持仓市值</span>
+                    <span class="pnl-value-large" id="totalAssetInPnl">0</span>
+                </div>
+                <div class="pnl-summary-item">
+                    <span class="pnl-label">累计浮盈</span>
+                    <span class="pnl-value-large" id="totalProfitInPnl">0</span>
+                    <span class="pnl-rate" id="totalProfitRateInPnl">0%</span>
                 </div>
             </div>
             <div class="pnl-loading" id="pnlLoading">
