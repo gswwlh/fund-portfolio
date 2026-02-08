@@ -522,7 +522,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
+        }
+
+        .index-title span {
+            flex: 0 0 auto;
+        }
+
+        .index-title button:first-of-type {
+            margin-left: auto;
         }
 
         .index-refresh-btn {
@@ -1181,6 +1189,7 @@
     <div class="index-dashboard">
         <div class="index-title">
             <span>📊 全球市场指数</span>
+            <button class="index-refresh-btn" onclick="showUserIdManager()" title="管理用户ID">🔑 用户ID</button>
             <button class="index-refresh-btn" onclick="location.reload()">🔄 刷新</button>
         </div>
         <div class="index-grid">
@@ -1268,7 +1277,6 @@
                 <button class="btn-dash" onclick="syncAllFundNav()">🔄 同步实时净值</button>
                 <button class="btn-dash" onclick="saveToCloud()" title="手动保存到云端">☁️ 保存到云端</button>
                 <button class="btn-dash" onclick="loadFromCloudManual()" title="从云端重新加载">📥 从云端加载</button>
-                <button class="btn-dash" onclick="showUserIdManager()" title="管理用户ID">🔑 用户ID</button>
                 <button class="btn-dash" onclick="exportData()">⬇️ 备份配置</button>
                 <button class="btn-dash" onclick="document.getElementById('importFile').click()">⬆️ 恢复配置</button>
                 <input type="file" id="importFile" style="display:none" onchange="importData(this)">
