@@ -2992,6 +2992,14 @@
     function togglePnlSector(sectorId, event) {
         if (event) {
             event.stopPropagation();
+            event.preventDefault();
+            // 移除点击目标的高亮
+            if (event.target) {
+                event.target.style.webkitTapHighlightColor = 'transparent';
+            }
+            if (event.currentTarget) {
+                event.currentTarget.style.webkitTapHighlightColor = 'transparent';
+            }
         }
         
         const contentEl = document.getElementById(`pnl-content-${sectorId}`);
@@ -4658,6 +4666,27 @@
         r.readAsText(f);
         input.value = '';
     }
+    
+    // 全局函数：移除所有点击高亮效果
+    function removeAllTapHighlights() {
+        // 移除所有 pnl-sector-header 的点击高亮
+        document.querySelectorAll('.pnl-sector-header, .pnl-sector-header *').forEach(el => {
+            el.style.webkitTapHighlightColor = 'transparent';
+            el.style.webkitTouchCallout = 'none';
+            el.style.userSelect = 'none';
+        });
+    }
+    
+    // 在页面加载后和每次渲染后调用
+    if (typeof MutationObserver !== 'undefined') {
+        const observer = new MutationObserver(() => {
+            removeAllTapHighlights();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+    
+    // 立即执行一次
+    removeAllTapHighlights();
 </script>
 
 </body>
