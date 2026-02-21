@@ -4705,12 +4705,52 @@
     if (typeof MutationObserver !== 'undefined') {
         const observer = new MutationObserver(() => {
             removeAllTapHighlights();
+            addTouchHandlers(); // 添加触摸事件处理
         });
         observer.observe(document.body, { childList: true, subtree: true });
     }
     
+    // 添加触摸事件处理 - 点击时文字变黑
+    function addTouchHandlers() {
+        document.querySelectorAll('.pnl-sector-header').forEach(header => {
+            // 移除旧的事件监听器（如果有）
+            header.removeEventListener('touchstart', handleTouchStart);
+            header.removeEventListener('touchend', handleTouchEnd);
+            header.removeEventListener('touchcancel', handleTouchEnd);
+            
+            // 添加新的事件监听器
+            header.addEventListener('touchstart', handleTouchStart, { passive: true });
+            header.addEventListener('touchend', handleTouchEnd, { passive: true });
+            header.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+        });
+    }
+    
+    // 触摸开始 - 文字变黑
+    function handleTouchStart(e) {
+        const header = e.currentTarget;
+        // 将所有文字变成黑色
+        header.querySelectorAll('*').forEach(el => {
+            el.setAttribute('data-original-color', el.style.color || '');
+            el.style.color = '#000000';
+        });
+    }
+    
+    // 触摸结束 - 恢复原色
+    function handleTouchEnd(e) {
+        const header = e.currentTarget;
+        // 恢复所有文字的原始颜色
+        header.querySelectorAll('*').forEach(el => {
+            const originalColor = el.getAttribute('data-original-color');
+            if (originalColor !== null) {
+                el.style.color = originalColor || '';
+                el.removeAttribute('data-original-color');
+            }
+        });
+    }
+    
     // 立即执行一次
     removeAllTapHighlights();
+    addTouchHandlers();
 </script>
 
 </body>
