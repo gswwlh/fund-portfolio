@@ -963,11 +963,21 @@
                 outline: none !important;
             }
             
-            /* 防止点击时背景变化 */
+            /* 点击时文字变黑色，在白色高亮背景上可见 */
             .pnl-sector-header:active,
-            .pnl-sector-header *:active {
+            .pnl-sector-header:active * {
+                color: #000000 !important;
                 background-color: inherit !important;
                 background: inherit !important;
+            }
+            
+            /* 确保点击时所有文字都变黑 */
+            .pnl-sector-header:active .pnl-sector-name,
+            .pnl-sector-header:active .pnl-sector-total,
+            .pnl-sector-header:active .pnl-sector-asset,
+            .pnl-sector-header:active .pnl-sector-rate,
+            .pnl-sector-header:active .sector-collapse-icon {
+                color: #000000 !important;
             }
 
             body {
