@@ -916,6 +916,12 @@
 
         /* ========== 移动端优化 ========== */
         @media (max-width: 768px) {
+            /* 禁用移动端点击高亮 */
+            * {
+                -webkit-tap-highlight-color: transparent;
+                -webkit-touch-callout: none;
+            }
+
             body {
                 padding: 10px;
                 background: #0a0e1a;
@@ -1013,11 +1019,6 @@
                 border: 1px solid rgba(255, 255, 255, 0.12);
                 transition: all 0.3s ease;
             }
-            
-            .index-item:active {
-                transform: scale(0.98);
-                background: rgba(255, 255, 255, 0.12);
-            }
 
             .index-name {
                 font-size: 12px;
@@ -1072,11 +1073,6 @@
                 border-radius: 8px;
                 transition: all 0.3s ease;
             }
-            
-            .pnl-summary-item:active {
-                transform: scale(0.98);
-                background: rgba(255, 255, 255, 0.12);
-            }
 
             .pnl-label {
                 font-size: 11px;
@@ -1122,6 +1118,7 @@
                 gap: 10px;
                 background: rgba(255, 255, 255, 0.03);
                 border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                -webkit-tap-highlight-color: transparent;
             }
 
             .pnl-sector-name {
@@ -1816,10 +1813,6 @@
                 transition: all 0.2s;
             }
             
-            .mobile-portfolio-info:active {
-                background: rgba(255, 255, 255, 0.1);
-            }
-            
             .mobile-portfolio-name {
                 font-size: 16px;
                 font-weight: 700;
@@ -2225,6 +2218,8 @@
                 console.log('✅ 创建云端数据成功');
             }
             
+            // 保存成功后，标记已有云端数据
+            hasCloudData = true;
             showNotification('数据已保存到云端', 'success');
             return true;
         } catch (error) {
@@ -2234,7 +2229,6 @@
             return false;
         }
     }
-    
     /**
      * 从云端加载数据
      */
@@ -2272,7 +2266,8 @@
         const cloudData = await loadFromCloud();
         
         if (cloudData) {
-            appData = cloudData;
+            appData = migrateToV9(cloudData);  // 添加 V9 迁移
+            hasCloudData = true; // 标记已从云端加载数据
             renderApp();
             calcAll();
             showNotification('数据已从云端加载', 'success');
@@ -2373,6 +2368,7 @@
     let appData = null;
     let myChart = null; // 再平衡图表
     let compoundChart = null; // 复利图表
+    let hasCloudData = false; // 标记是否从云端加载过数据
 
     // ===== UI状态管理器（折叠功能）=====
     const UIState = {
@@ -2580,9 +2576,14 @@
         if (cloudData) {
             // 迁移云端数据到V9
             appData = migrateToV9(cloudData);
+            hasCloudData = true; // 标记已从云端加载数据
             console.log('📥 使用云端数据（已迁移到V9）');
             await saveToCloud(); // 保存迁移后的数据
         } else {
+            // 云端没有数据，标记为未加载
+            hasCloudData = false;
+            console.log('⚠️ 云端没有数据，使用本地数据');
+            
             // 检查本地V9数据
             const v9Local = localStorage.getItem('smartSIP_data_v9');
             if (v9Local) {
@@ -2740,7 +2741,8 @@
         const cloudData = await loadFromCloud();
         
         if (cloudData) {
-            appData = cloudData;
+            appData = migrateToV9(cloudData);  // 添加 V9 迁移
+            hasCloudData = true; // 标记已从云端加载数据
             renderApp();
             calcAll();
             showNotification('数据已从云端加载', 'success');
@@ -4399,8 +4401,12 @@
     function saveToLocal() {
         // 保存为V9格式（持仓管理系统）
         localStorage.setItem('smartSIP_data_v9', JSON.stringify(appData));
-        // 自动保存到云端（不阻塞UI）
-        saveToCloud().catch(err => console.error('云端保存失败:', err));
+        // 只有在以下情况才自动保存到云端：
+        // 1. 之前从云端加载过数据（hasCloudData = true）
+        // 2. 用户手动操作（通过按钮保存）
+        if (hasCloudData) {
+            saveToCloud().catch(err => console.error('云端保存失败:', err));
+        }
     }
 
     // --- 联网功能：同步基金实际净值（仅东方财富） ---
