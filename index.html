@@ -938,46 +938,10 @@
 
         /* ========== 移动端优化 ========== */
         @media (max-width: 768px) {
-            /* 禁用移动端点击高亮 - 最强力版本 */
+            /* 禁用移动端点击高亮 */
             * {
-                -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-                -webkit-touch-callout: none !important;
-                -webkit-user-select: none !important;
-                user-select: none !important;
-            }
-            
-            /* 特别针对持仓看板 */
-            .pnl-sector,
-            .pnl-sector *,
-            .pnl-sector-header,
-            .pnl-sector-header *,
-            .pnl-sector-name,
-            .pnl-sector-name *,
-            .pnl-sector-stats,
-            .pnl-sector-stats *,
-            .sector-collapse-icon {
-                -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-                -webkit-touch-callout: none !important;
-                -webkit-user-select: none !important;
-                user-select: none !important;
-                outline: none !important;
-            }
-            
-            /* 点击时文字变黑色，在白色高亮背景上可见 */
-            .pnl-sector-header:active,
-            .pnl-sector-header:active * {
-                color: #000000 !important;
-                background-color: inherit !important;
-                background: inherit !important;
-            }
-            
-            /* 确保点击时所有文字都变黑 */
-            .pnl-sector-header:active .pnl-sector-name,
-            .pnl-sector-header:active .pnl-sector-total,
-            .pnl-sector-header:active .pnl-sector-asset,
-            .pnl-sector-header:active .pnl-sector-rate,
-            .pnl-sector-header:active .sector-collapse-icon {
-                color: #000000 !important;
+                -webkit-tap-highlight-color: transparent;
+                -webkit-touch-callout: none;
             }
 
             body {
@@ -3016,14 +2980,6 @@
     function togglePnlSector(sectorId, event) {
         if (event) {
             event.stopPropagation();
-            event.preventDefault();
-            // 移除点击目标的高亮
-            if (event.target) {
-                event.target.style.webkitTapHighlightColor = 'transparent';
-            }
-            if (event.currentTarget) {
-                event.currentTarget.style.webkitTapHighlightColor = 'transparent';
-            }
         }
         
         const contentEl = document.getElementById(`pnl-content-${sectorId}`);
@@ -4705,52 +4661,12 @@
     if (typeof MutationObserver !== 'undefined') {
         const observer = new MutationObserver(() => {
             removeAllTapHighlights();
-            addTouchHandlers(); // 添加触摸事件处理
         });
         observer.observe(document.body, { childList: true, subtree: true });
     }
     
-    // 添加触摸事件处理 - 点击时文字变黑
-    function addTouchHandlers() {
-        document.querySelectorAll('.pnl-sector-header').forEach(header => {
-            // 移除旧的事件监听器（如果有）
-            header.removeEventListener('touchstart', handleTouchStart);
-            header.removeEventListener('touchend', handleTouchEnd);
-            header.removeEventListener('touchcancel', handleTouchEnd);
-            
-            // 添加新的事件监听器
-            header.addEventListener('touchstart', handleTouchStart, { passive: true });
-            header.addEventListener('touchend', handleTouchEnd, { passive: true });
-            header.addEventListener('touchcancel', handleTouchEnd, { passive: true });
-        });
-    }
-    
-    // 触摸开始 - 文字变黑
-    function handleTouchStart(e) {
-        const header = e.currentTarget;
-        // 将所有文字变成黑色
-        header.querySelectorAll('*').forEach(el => {
-            el.setAttribute('data-original-color', el.style.color || '');
-            el.style.color = '#000000';
-        });
-    }
-    
-    // 触摸结束 - 恢复原色
-    function handleTouchEnd(e) {
-        const header = e.currentTarget;
-        // 恢复所有文字的原始颜色
-        header.querySelectorAll('*').forEach(el => {
-            const originalColor = el.getAttribute('data-original-color');
-            if (originalColor !== null) {
-                el.style.color = originalColor || '';
-                el.removeAttribute('data-original-color');
-            }
-        });
-    }
-    
     // 立即执行一次
     removeAllTapHighlights();
-    addTouchHandlers();
 </script>
 
 </body>
